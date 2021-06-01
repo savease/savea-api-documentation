@@ -101,7 +101,7 @@ Returns information about a traveller type.
 |Name|Description|Required|
 |----|-----------|--------|
 |companyId|The id of the company.|yes|
-|stopId|The id of the traveller type.|yes|
+|travellerTypeId|The id of the traveller type.|yes|
 
 #### Response
 

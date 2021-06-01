@@ -41,7 +41,7 @@ Return information about a company using Savea.
 |----|-----------|--------|
 |companyId|The unique id of the company.|yes|
 
-##### Response
+#### Response
 
 * [Company](#company)
 
@@ -62,7 +62,7 @@ Returns information about a stop.
 |companyId|The id of the company.|yes|
 |stopId|The id of the stop.|yes|
 
-##### Response
+#### Response
 
 * [Stop](#stop)
 
@@ -82,7 +82,7 @@ Returns the public stops for a company.
 |----|-----------|--------|
 |companyId|The id of the company.|yes|
 
-##### Response
+#### Response
 
 * array of [Stop](#stop)
 
@@ -103,7 +103,7 @@ Returns information about a traveller type.
 |companyId|The id of the company.|yes|
 |stopId|The id of the traveller type.|yes|
 
-##### Response
+#### Response
 
 * [Traveller type](#traveller-type)
 
@@ -123,7 +123,7 @@ Returns the public traveller types for a company.
 |----|-----------|--------|
 |companyId|The id of the company.|yes|
 
-##### Response
+#### Response
 
 * array of [Traveller type](#traveller-type)
 

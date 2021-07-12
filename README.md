@@ -9,6 +9,7 @@ NOTE: This document is under development and might change without any notice.
 * [Get started](#get-started)
     * [The client key](#the-client-key)
     * [Language support](#language-support)
+    * [Error handling](#error-handling)
 * [Requests](#requests)
     * [Retrieve a company](#-retrieve-a-company)
     * [Retrieve a stop](#-retrieve-a-stop)
@@ -52,6 +53,15 @@ To apply for a client key, please contact us at [support@savea.se](mailto:suppor
 
 Use the ```Accept-Language``` HTTP header in the requests to choose the desired language for the result.
 
+### Error handling
+
+If any of the documented requests fails, an HTTP Status code of 4XX is returned along with an error structure, containing these two fields:
+
+* ```error``` A human-readable error message intended for debugging the client application. This content might change without any notice.
+* ```errorId``` A text id identifying the error type. This id will never change for a major version of the API.
+
+[Try it now](https://api.savea.se/v1/companies/foobar).
+
 ---
 
 ## Requests
@@ -76,6 +86,12 @@ Returns information about a company using Savea.
 
 * [Company](#-company)
 
+**Errors**
+
+|Code|Error id|Reason|
+|----|--------|-----|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+
 ### ⇄ Retrieve a stop
 
 Returns information about a stop.
@@ -97,6 +113,13 @@ Returns information about a stop.
 
 * [Stop](#-stop)
 
+**Errors**
+
+|Code|Error id|Reason|
+|----|--------|-----|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+|404|ERROR_RESOURCE_NOT_FOUND_OR_INACCESSIBLE|The stop id is invalid.|
+
 ### ⇄ Retrieve all stops
 
 Returns the public stops for a company.
@@ -116,6 +139,12 @@ Returns the public stops for a company.
 **Response**
 
 * array of [Stop](#-stop)
+
+**Errors**
+
+|Code|Error id|Reason|
+|----|--------|-----|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
 
 ### ⇄ Retrieve a traveller type
 
@@ -138,6 +167,13 @@ Returns information about a traveller type.
 
 * [Traveller type](#-traveller-type)
 
+**Errors**
+
+|Code|Error id|Reason|
+|----|--------|-----|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+|404|ERROR_RESOURCE_NOT_FOUND_OR_INACCESSIBLE|The traveller type id is invalid.|
+
 ### ⇄ Retrieve all traveller types
 
 Returns the public traveller types for a company.
@@ -157,6 +193,12 @@ Returns the public traveller types for a company.
 **Response**
 
 * array of [Traveller type](#-traveller-type)
+
+**Errors**
+
+|Code|Error id|Reason|
+|----|--------|-----|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
 
 ### ⇄ Check status
 

@@ -45,7 +45,7 @@ The response will show the following information:
 * ```message``` A friendly greeting message in the [requested language](#language-support).
 * ```requestContent``` The raw data sent to the request.
 * ```clientKey``` If a [client key](#the-client-key) was used in the request, its description is shown here.
-* ```accountLogin``` If a [account login token](#the-account-login-token) was used in the request, the customer account login information is shown here.
+* ```accountLogin``` If an [account login token](#the-account-login-token) was used in the request, the customer account login information is shown here.
 
 ### The client key
 

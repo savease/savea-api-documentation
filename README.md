@@ -10,7 +10,8 @@ NOTE: This document is under development and might change without any notice.
     * [The client key](#the-client-key)
     * [The account login token](#the-account-login-token)
     * [Language support](#language-support)
-    * [Error handling](#error-handling)
+* [Error handling](#error-handling)
+    * [Request body parameters errors](#request-body-parameters-errors)
 * [Requests](#requests)
     * [Retrieve a company](#-retrieve-a-company)
     * [Retrieve a customer account login](#-retrieve-a-customer-account-login)
@@ -71,7 +72,9 @@ An account login token can be retrieved with the [Log in to a customer account](
 
 Use the ```Accept-Language``` HTTP header in the requests to choose the desired language for the result.
 
-### Error handling
+---
+
+## Error handling
 
 If any of the documented requests fails, an HTTP Status code of 4XX is returned along with an error structure, containing these two fields:
 
@@ -79,6 +82,23 @@ If any of the documented requests fails, an HTTP Status code of 4XX is returned 
 * ```errorId``` A text id identifying the error type. This id will never change for a major version of the API.
 
 [Try it now](https://api.savea.se/v1/companies/foobar).
+
+### Request body parameters errors
+
+In the special case when ```errorId``` is ```ERROR_INVALID_REQUEST_BODY_PARAMETERS``` (with an HTTP status code of 400), the validation failed for the parameters sent via the request body.
+
+When this happens, an extra field is appended to the result:
+
+* ```parameterErrors``` An array of error structures, one for each parameter that failed validation.
+
+Each error structure contains the following fields:
+
+* ```parameterName``` The name of the parameter sent in the request.
+* ```error``` A human-readable error message intended for debugging the client application. This content might change without any notice.
+* ```errorId``` A text id identifying the error type. This id will never change for a major version of the API. This id will be one of:
+    * ```ERROR_MISSING_PARAMETER``` A required parameter is missing in the request.
+    * ```ERROR_EMPTY_PARAMETER_VALUE``` A required parameter is present in the request, but its value is empty.
+    * ```ERROR_INVALID_PARAMETER_VALUE``` The parameter value is of invalid type (e.g. an integer when a string was expected) or malformed (e.g. an invalid email address or phone number).
 
 ---
 
@@ -307,7 +327,7 @@ Log in to a customer account.
 
 |Code|Error id|Reason|
 |----|--------|------|
-|400|ERROR_INVALID_PARAMETER|One or more of the request body parameter values are in invalid format.|
+|400|ERROR_INVALID_REQUEST_BODY_PARAMETERS|One or more of the request body parameter are invalid.|
 |400|ERROR_INVALID_CREDENTIALS|The login failed due to invalid login credentials.|
 |403|ERROR_MISSING_OR_INVALID_CLIENT_KEY|The [client key](#the-client-key) is missing or invalid.|
 |404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|

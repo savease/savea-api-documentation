@@ -20,10 +20,12 @@ NOTE: This document is under development and might change without any notice.
     * [Retrieve a traveller type](#-retrieve-a-traveller-type)
     * [Retrieve all traveller types](#-retrieve-all-traveller-types)
     * [Check status](#-check-status)
+    * [Create an account draft](#-create-an-account-draft)
     * [Log in to a customer account](#-log-in-to-a-customer-account)
     * [Log out from a customer account](#-log-out-from-a-customer-account)
 * [Data structures](#data-structures)
     * [Account](#-account)
+    * [Account draft](#-account-draft)
     * [Account login](#-account-login)
     * [Company](#-company)
     * [Coordinate](#-coordinate)
@@ -293,6 +295,60 @@ Returns various information for the request.
 
 * [Ping response](#-ping-response)
 
+### ⇄ Create an account draft
+
+Create an account draft for a customer account.
+
+🛈 This request requires a [client key](#the-client-key).
+
+**Request**
+
+|Method|Url|
+|------|---|
+|POST|/v1/accountdrafts/\<companyId>/|
+
+**Parameters**
+
+|Name|Description|Required|
+|----|-----------|--------|
+|companyId|The unique id of the company.|yes|
+
+**Request body**
+
+```
+{
+   "firstName": "...",
+   "lastName": "...",
+   "password": "...",
+   "emailAddress": "...",
+   "phoneNumber": "...",
+}
+```
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|firstName|string|The first name of the account owner.|yes|
+|lastName|string|The last name of the account owner.|yes|
+|password|string|The password that will be used to log in to the account.|yes|
+|emailAddress|string or null|The email address for the account owner.|Either an email address or a phone number is required.|
+|phoneNumber|string or null|The phone number, in any valid format, for the account owner.|Either an email address or a phone number is required.|
+
+**Response**
+
+* [Account draft](#-account-draft)
+
+**Errors**
+
+|Code|Error id|Reason|
+|----|--------|------|
+|400|ERROR_INVALID_REQUEST_BODY_PARAMETERS|One or more of the request body parameter are invalid.|
+|403|ERROR_MISSING_OR_INVALID_CLIENT_KEY|The [client key](#the-client-key) is missing or invalid.|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+
+**Notes**
+
+* After a successful request, a confirmation message is sent to the specified email address (by email) and/or phone number (by sms). This message contains a link that the receiver must click on to create the account. The account draft will then be deleted.
+
 ### ⇄ Log in to a customer account
 
 Log in to a customer account.
@@ -394,6 +450,19 @@ The account structure represents information about a customer account.
 |emailAddress|string or null|The email address of the account owner or null if no email address is registered for the account.|
 |phoneNumber|[Phone number](#-phone-number) or null|The phone number of the account owner or null if no phone number is registered for the account.|
 |balance|float|The balance in SEK for any pre-paid purchases for this account.
+
+### 🗏 Account draft
+
+The account login structure represents an account draft that is used to create a customer account.
+
+**Attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|firstName|string|The first name of the account owner.|
+|lastName|string|The last name of the account owner.|
+|emailAddress|string or null|Optional email address for the account owner or null.
+|phoneNumber|[Phone number](#-phone-number) or null|Optional phone number for the account owner or null.
 
 ### 🗏 Account login
 

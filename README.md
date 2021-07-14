@@ -347,7 +347,7 @@ Create an account draft for a customer account.
 
 **Notes**
 
-* After a successful request, a confirmation message is sent to the specified email address (by email) and/or phone number (by sms). This message contains a link that the receiver must click on to create the account. The account draft will then be deleted.
+* After a successful request, a confirmation message is sent to the specified email address if set, otherwise by a sms to the phone number. This message contains a link that the receiver must click on to create the account. The account draft will then be deleted.
 
 ### ⇄ Log in to a customer account
 

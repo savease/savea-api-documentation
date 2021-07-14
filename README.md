@@ -78,7 +78,7 @@ Use the ```Accept-Language``` HTTP header in the requests to choose the desired 
 
 If any of the documented requests fails, an HTTP Status code of 4XX is returned along with an error structure, containing these two fields:
 
-* ```error``` A human-readable error message intended for debugging the client application. This content might change without any notice.
+* ```error``` A human-readable error message intended for debugging the client application. This content might change without any notice. This message should not be displayed to the end user.
 * ```errorId``` A text id identifying the error type. This id will never change for a major version of the API.
 
 [Try it now](https://api.savea.se/v1/companies/foobar).
@@ -94,11 +94,19 @@ When this happens, an extra field is appended to the result:
 Each error structure contains the following fields:
 
 * ```parameterName``` The name of the parameter sent in the request.
-* ```error``` A human-readable error message intended for debugging the client application. This content might change without any notice.
-* ```errorId``` A text id identifying the error type. This id will never change for a major version of the API. This id will be one of:
-    * ```ERROR_MISSING_PARAMETER``` A required parameter is missing in the request.
-    * ```ERROR_EMPTY_PARAMETER_VALUE``` A required parameter is present in the request, but its value is empty.
-    * ```ERROR_INVALID_PARAMETER_VALUE``` The parameter value is of invalid type (e.g. an integer when a string was expected) or malformed (e.g. an invalid email address or phone number).
+* ```error``` A human-readable error message intended for debugging the client application. This content might change without any notice. This message should not be displayed to an end user.
+* ```errorId``` A text id identifying the error type. This id will never change for a major version of the API. This id should be used to create a message to show an end user. This id will be one of the following:
+
+|Value|Description|Example|
+|-----|-----------|-------|
+|ERROR_MISSING_PARAMETER|The required parameter is missing in the request.||
+|ERROR_EMPTY_PARAMETER_VALUE|The required parameter is present in the request, but its value is empty.||
+|ERROR_INVALID_PARAMETER_VALUE|The parameter value is of invalid type or malformed|The parameter is an integer when a string was expected or an email address or phone number is not valid.
+|ERROR_REQUIREMENTS_FAILED_FOR_PARAMETER_VALUE|The parameter value is syntactically correct, but further requirements failed.|A passwords is set that contains to few characters.|
+|ERROR_RESOURCE_EXISTS_FOR_PARAMETER_VALUE|The resource specified for the parameter value could not be created, because it already exists.|An account is created with an email address that already is set for an existing account.| 
+|ERROR_INVALID_CREDENTIALS_IN_PARAMETER_VALUE|The credentials specified in the parameter value is not valid.|A password is not valid for a login to an account.|
+
+Note: Additional entries might be added to this list without any notice.
 
 ---
 
@@ -328,7 +336,6 @@ Log in to a customer account.
 |Code|Error id|Reason|
 |----|--------|------|
 |400|ERROR_INVALID_REQUEST_BODY_PARAMETERS|One or more of the request body parameter are invalid.|
-|400|ERROR_INVALID_CREDENTIALS|The login failed due to invalid login credentials.|
 |403|ERROR_MISSING_OR_INVALID_CLIENT_KEY|The [client key](#the-client-key) is missing or invalid.|
 |404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
 

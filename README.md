@@ -29,9 +29,11 @@ NOTE: This document is under development and might change without any notice.
     * [Account login](#-account-login)
     * [Company](#-company)
     * [Coordinate](#-coordinate)
+    * [Image](#-image)
     * [Language](#-language)
     * [Phone number](#-phone-number)
     * [Ping response](#-ping-response)
+    * [Shop design](#-shop-design)
     * [Stop](#-stop)
     * [Traveller type](#-traveller-type)
 
@@ -130,6 +132,16 @@ Returns information about a company using Savea.
 |----|-----------|--------|
 |companyId|The unique id of the company.|yes|
 
+**Optional extra content**
+
+Optional extra content can be embedded in the result by adding a query parameter with the name ```embed``` set to a comma-separated list of one or more of the following values:
+
+|Value|Description|
+|-----|-----------|
+|shopDesign|Colors, logos etc. used in web shop and app.
+|stops|All stops for the company. This is the same result as returned from the [Retrieve all stops](#-retrieve-all-stops) request.
+|travellerTypes|All traveller types for the company. This is the same result as returned from the [Retrieve all traveller types](#-retrieve-all-traveller-types) request.
+
 **Response**
 
 * [Company](#-company)
@@ -139,6 +151,7 @@ Returns information about a company using Savea.
 |Code|Error id|Reason|
 |----|--------|-----|
 |404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+|404|ERROR_EMBEDDED_CONTENT_NOT_FOUND_OR_INACCESSIBLE|The requested embedded content flag is invalid or the embedded content is not accessible.|
 
 ### ⇄ Retrieve a customer account login
 
@@ -488,6 +501,14 @@ The company structure represents information about a company using Savea.
 |name|string|The name of the company.|
 |languages|array of [Language](#-language)|The languages supported by the company.|
 
+**Optional attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|shopDesign|[Shop design](#-shop-design)|The shop design settings if requested as embedded content.|
+|stops|array of [Stop](#-stop)|All stops for the company if requested as embedded content.|
+|travellerTypes|array of [Traveller type](#-traveller-type)|All traveller types for the company if requested as embedded content.|
+
 ### 🗏 Coordinate
 
 The coordinate structure represents a WGS84 coordinate with latitude and longitude.
@@ -498,6 +519,18 @@ The coordinate structure represents a WGS84 coordinate with latitude and longitu
 |----|----|-----------|
 |latitude|float|The latitude in degrees.|
 |longitude|float|The longitude in degrees.|
+
+### 🗏 Image
+
+The image structure represents an image, either as an image file available online, or as inline data.
+
+**Attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|url|string or null|The url where the image is located or null if this image is only available as inline data via the "data" attribute.|
+|data|string or null|The image data in Base64 encoded format or null if this image is only available via the "url" attribute.|
+|mimeType|string|The mime type of the image.|
 
 ### 🗏 Language
 
@@ -534,6 +567,18 @@ The response from a [Ping](#-check-status) request.
 |requestContent|object or null|The content sent in the request echoed back or null if no content was sent.|
 |clientKey|string or null|The description of the [client key](#the-client-key) in the request or null if no valid client key was used.| 
 |accountLogin|[AccountLogin](#-account-login) or null|The customer account login if a valid [account login token](#the-account-login-token) was used or null if no account token was used.| 
+
+### 🗏 Shop design
+
+The shop design structure represents the logos, colors etc. used in web shop and app.
+
+**Attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|backgroundColor|string|The background color in #RRGGBB format.|
+|textColor|string|The text color in #RRGGBB format.|
+|logo|[Image](#-image) or null|The main logo image or null if no main logo is present.|
 
 ### 🗏 Stop
 

@@ -472,10 +472,12 @@ The account login structure represents an account draft that is used to create a
 
 |Name|Type|Description|
 |----|----|-----------|
+|id|string|The id of the account draft.|
 |firstName|string|The first name of the account owner.|
 |lastName|string|The last name of the account owner.|
 |emailAddress|string or null|Optional email address for the account owner or null.
 |phoneNumber|[Phone number](#-phone-number) or null|Optional phone number for the account owner or null.
+|verificationSentBy|array of string|How the verification message was sent to the account owner. The array contains at least one of "email" (message was sent via e-mail to the value of the parameter "emailAddress") or "sms" (message was sent via sms to the value of the parameter "phoneNumber").|
 
 ### 🗏 Account login
 

@@ -19,6 +19,7 @@ NOTE: This document is under development and might change without any notice.
     * [Retrieve all stops](#-retrieve-all-stops)
     * [Retrieve a traveller type](#-retrieve-a-traveller-type)
     * [Retrieve all traveller types](#-retrieve-all-traveller-types)
+    * [Search for travel plans](#-search-for-travel-plans)
     * [Check status](#-check-status)
     * [Create an account draft](#-create-an-account-draft)
     * [Log in to a customer account](#-log-in-to-a-customer-account)
@@ -35,6 +36,8 @@ NOTE: This document is under development and might change without any notice.
     * [Ping response](#-ping-response)
     * [Shop design](#-shop-design)
     * [Stop](#-stop)
+    * [Travel plan](#-travel-plan)
+    * [Travel plan part](#-travel-plan-part)
     * [Traveller type](#-traveller-type)
 
 ---
@@ -293,6 +296,41 @@ Returns the public traveller types for a company.
 |Code|Error id|Reason|
 |----|--------|-----|
 |404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+
+### ⇄ Search for travel plans
+
+Returns a list of travel plans between two stops for a specific date.
+
+# fixme: Note about travel plan set
+
+**Request**
+
+|Method|Url|
+|------|---|
+|GET or POST|/v1/travelplans/\<companyId>/?\<query>
+
+**Query Parameters**
+
+|Name|Description|Required|
+|----|-----------|--------|
+|departureDate|The date of the departure in ISO 8601 YYYY-MM-DD format.|yes|
+|departureStopId|The id of the departure stop.|yes|
+|arrivalStopId|The id of the arrival stop.|yes|
+|travellerCount|The number of travellers for each traveller type. This string must be in the format ```travellerTypeId1:count1;travellerTypeId2:count2;...```, e.g. ```foo:1;bar:2``` means one traveller of a type with id "foo" and two travellers of a type with id "bar".|yes|
+
+**Response**
+
+* array of [Travel plan](#-travel-plan)
+
+**Errors**
+
+|Code|Error id|Reason|
+|----|--------|------|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+|404|ERROR_MISSING_PARAMETER|One or more required query parameters are missing.|
+|404|ERROR_EMPTY_PARAMETER_VALUE|The value of one or more required query parameters are empty.|
+|404|ERROR_INVALID_PARAMETER_VALUE|The value of one or more required query parameters are invalid.|
+|404|ERROR_RESOURCE_NOT_FOUND_OR_INACCESSIBLE|The stop or traveller type referred to by the query parameters was not found.|
 
 ### ⇄ Check status
 
@@ -594,6 +632,36 @@ The stop structure represents a stop, where a traveller might enter or exit a ve
 |name|string|The name of the stop.|
 |extraInfo|string|Optional extra information for the stop or an empty string.|
 |position|[Coordinate](#-coordinate) or null|Optional position for the stop or null.|
+
+### 🗏 Travel plan
+
+The travel plan structure represents a complete travel plan from one stop to another.
+
+**Attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|id|string|The id of the travel plan. This id is unique for all companies.|
+|departureStop|[Stop](#-stop)|The departure stop.|
+|departureDateTime|string|The date and time of departure in RFC 3339 format.|
+|arrivalStop|[Stop](#-stop)|The arrival stop.|
+|arrivalDateTime|string|The date and time of arrival in RFC 3339 format.|
+|isBookable|boolean|If true, it is possible to place a booking for this travel plan. If false, this travel plan can not be booked.|
+|parts|array of [Travel plan part](#-travel-plan-part)|The parts of the travel plan. Each part is a separate trip without transfers. The number of transfers required is equal to the size of this array minus 1.|
+
+### 🗏 Travel plan part
+
+The travel plan part structure represent a part of a travel plan that can be travelled without a transfer.
+
+**Attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|id|string|The id of the travel plan. This id is unique for all companies.|
+|departureStop|[Stop](#-stop)|The departure stop.|
+|departureDateTime|string|The date and time of departure in RFC 3339 format.|
+|arrivalStop|[Stop](#-stop)|The arrival stop.|
+|arrivalDateTime|string|The date and time of arrival in RFC 3339 format.|
 
 ### 🗏 Traveller type
 

@@ -307,7 +307,7 @@ Returns a list of travel plans between two stops for a specific date.
 
 |Method|Url|
 |------|---|
-|GET or POST|/v1/travelplans/\<companyId>/?\<query>
+|GET|/v1/travelplans/\<companyId>/?\<query>
 
 **Query Parameters**
 
@@ -328,9 +328,9 @@ Returns a list of travel plans between two stops for a specific date.
 |----|--------|------|
 |404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
 |404|ERROR_MISSING_PARAMETER|One or more required query parameters are missing.|
-|404|ERROR_EMPTY_PARAMETER_VALUE|The value of one or more required query parameters are empty.|
-|404|ERROR_INVALID_PARAMETER_VALUE|The value of one or more required query parameters are invalid.|
-|404|ERROR_RESOURCE_NOT_FOUND_OR_INACCESSIBLE|The stop or traveller type referred to by the query parameters was not found.|
+|404|ERROR_EMPTY_PARAMETER_VALUE|The values of one or more required query parameters are empty.|
+|404|ERROR_INVALID_PARAMETER_VALUE|The values of one or more required query parameters are invalid.|
+|404|ERROR_RESOURCE_NOT_FOUND_OR_INACCESSIBLE|One or more of the stops or traveller types referred to by the query parameters was not found.|
 
 ### ⇄ Check status
 
@@ -657,7 +657,7 @@ The travel plan part structure represent a part of a travel plan that can be tra
 
 |Name|Type|Description|
 |----|----|-----------|
-|id|string|The id of the travel plan. This id is unique for all companies.|
+|id|string|The id of the travel plan part. This id is unique for all companies.|
 |departureStop|[Stop](#-stop)|The departure stop.|
 |departureDateTime|string|The date and time of departure in RFC 3339 format.|
 |arrivalStop|[Stop](#-stop)|The arrival stop.|

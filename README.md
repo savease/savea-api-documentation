@@ -20,6 +20,7 @@ NOTE: This document is under development and might change without any notice.
     * [Retrieve a traveller type](#-retrieve-a-traveller-type)
     * [Retrieve all traveller types](#-retrieve-all-traveller-types)
     * [Search for travel plans](#-search-for-travel-plans)
+    * [Search for multiple sets of travel plans](#-search-for-multiple-sets-of-travel-plans)
     * [Check status](#-check-status)
     * [Create an account draft](#-create-an-account-draft)
     * [Log in to a customer account](#-log-in-to-a-customer-account)
@@ -38,6 +39,7 @@ NOTE: This document is under development and might change without any notice.
     * [Stop](#-stop)
     * [Travel plan](#-travel-plan)
     * [Travel plan part](#-travel-plan-part)
+    * [Travel plan set](#-travel-plan-set)
     * [Traveller type](#-traveller-type)
 
 ---
@@ -301,7 +303,7 @@ Returns the public traveller types for a company.
 
 Returns a list of travel plans between two stops for a specific date.
 
-# fixme: Note about travel plan set
+⚠ This request should only be used to search for only one set of travel plans, i.e. a one-way journey. To search for travel plans that includes a return journey or to search for multiple journeys, use the [Search for multiple sets of travel plans](#-search-for-multiple-sets-of-travel-plans) request instead.
 
 **Request**
 
@@ -323,6 +325,38 @@ Returns a list of travel plans between two stops for a specific date.
 * array of [Travel plan](#-travel-plan)
 
 **Errors**
+
+|Code|Error id|Reason|
+|----|--------|------|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+|404|ERROR_MISSING_PARAMETER|One or more required query parameters are missing.|
+|404|ERROR_EMPTY_PARAMETER_VALUE|The values of one or more required query parameters are empty.|
+|404|ERROR_INVALID_PARAMETER_VALUE|The values of one or more required query parameters are invalid.|
+|404|ERROR_RESOURCE_NOT_FOUND_OR_INACCESSIBLE|One or more of the stops or traveller types referred to by the query parameters was not found.|
+
+### ⇄ Search for multiple sets of travel plans
+
+Returns a list of travel plans sets for multiple stops and dates.
+
+**Request**
+
+|Method|Url|
+|------|---|
+|GET|/v1/travelplansets/\<companyId>/?\<query>
+
+**Query Parameters**
+
+|Name|Description|Required|
+|----|-----------|--------|
+|setCount|The number of travel plan sets to search for, e.g. "1" for a one-way journey or "2" for an outbound and return journey.|yes| 
+|departureDate1 ... departureDateN|The dates of the departure in ISO 8601 YYYY-MM-DD format for each set where N is equal to the value of the setCount parameter.|yes|
+|departureStopId1 ... departureStopIdN|The ids of the departure stops for each set where N is equal to the value of the setCount parameter.|yes|
+|arrivalStopId1 ... arrivalStopIdN|The ids of the arrival stops for each set where N is equal to the value of the setCount parameter.|yes|
+|travellerCount|The number of travellers for each traveller type. This string must be in the format ```travellerTypeId1:count1;travellerTypeId2:count2;...```, e.g. ```foo:1;bar:2``` means one traveller of a type with id "foo" and two travellers of a type with id "bar".|yes|
+
+**Response**
+
+* array of [Travel plan set](#-travel-plan-set)
 
 |Code|Error id|Reason|
 |----|--------|------|
@@ -662,6 +696,20 @@ The travel plan part structure represent a part of a travel plan that can be tra
 |departureDateTime|string|The date and time of departure in RFC 3339 format.|
 |arrivalStop|[Stop](#-stop)|The arrival stop.|
 |arrivalDateTime|string|The date and time of arrival in RFC 3339 format.|
+
+### # Travel plan set
+
+The travel plan set structure represents a set of travel plans for a specific date and departure/arrival stops.
+
+**Attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|departureStop|[Stop](#-stop)|The departure stop.|
+|departureDate|string|The date of departure in ISO 8601 YYYY-MM-DD format.|
+|arrivalStop|[Stop](#-stop)|The arrival stop.|
+|arrivalDate|string|The date  of arrival in ISO 8601 YYYY-MM-DD format.|
+|travelPlans|Array of [Travel plan](#-travel-plan)|The travel plans.|
 
 ### 🗏 Traveller type
 

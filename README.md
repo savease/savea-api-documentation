@@ -35,6 +35,7 @@ NOTE: This document is under development and might change without any notice.
     * [Language](#-language)
     * [Phone number](#-phone-number)
     * [Ping response](#-ping-response)
+    * [Price](#-price)
     * [Shop design](#-shop-design)
     * [Stop](#-stop)
     * [Travel plan](#-travel-plan)
@@ -642,6 +643,19 @@ The response from a [Ping](#-check-status) request.
 |clientKey|string or null|The description of the [client key](#the-client-key) in the request or null if no valid client key was used.| 
 |accountLogin|[AccountLogin](#-account-login) or null|The customer account login if a valid [account login token](#the-account-login-token) was used or null if no account token was used.| 
 
+### 🗏 Price
+
+The price structure represents a price with an amount and currency.
+
+**Attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|amount|float|The price amount.|
+|currency|string|The currency as a 3 character ISO 4217 code, e.g. "SEK".|
+|localFormat|string|The price in a display-friendly shorter format for users in a country using the specified currency, e.g. "215:-".|
+|globalFormat|string|The price in a display-friendly format to use globally, e.g. "215.00 SEK".|
+
 ### 🗏 Shop design
 
 The shop design structure represents the logos, colors etc. used in web shop and app.
@@ -681,6 +695,7 @@ The travel plan structure represents a complete travel plan from one stop to ano
 |arrivalStop|[Stop](#-stop)|The arrival stop.|
 |arrivalDateTime|string|The date and time of arrival in RFC 3339 format.|
 |isBookable|boolean|If true, it is possible to place a booking for this travel plan. If false, this travel plan can not be booked.|
+|price|[Price](#-price) or null|The total price for the travel plan. This attribute can be null in the rare case where the prices are not setup for the travel plan.|    
 |parts|array of [Travel plan part](#-travel-plan-part)|The parts of the travel plan. Each part is a separate trip without transfers. The number of transfers required is equal to the size of this array minus 1.|
 
 ### 🗏 Travel plan part

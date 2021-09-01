@@ -104,8 +104,9 @@ When this happens, an extra field is appended to the result:
 Each error structure contains the following fields:
 
 * ```parameterName``` The name of the parameter sent in the request.
-* ```error``` A human-readable error message intended for debugging the client application. This content might change without any notice. This message should not be displayed to an end user.
-* ```errorId``` A text id identifying the error type. This id will never change for a major version of the API. This id should be used to create a message to show an end user. This id will be one of the following:
+* ```errorMessage``` A human-readable error message in the requested language. This text is suitable for being displayed to the end user.
+* ```errorDetails``` A technical detailed description of the error. This text should only be used for debugging purposes.
+* ```errorId``` A text id identifying the error type. This id can be used to create a custom error message and will be one of the following:
 
 |Value|Description|Example|
 |-----|-----------|-------|

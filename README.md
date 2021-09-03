@@ -627,7 +627,7 @@ The phone number structure represents an international phone number.
 
 |Name|Type|Description|
 |----|----|-----------|
-|msisdn|string|The phone number as a [MSISDN](https://en.wikipedia.org/wiki/MSISDN).|
+|compactFormat|string|The phone number in a compact format, e.g. "+46480XXXXX"|
 |internationalFormat|string|The phone number in a display-friendly international format, e.g. "+46 480 XXX XX"|
 |nationalFormat|string|The phone number in a display-friendly national format, e.g. "0480-XXX XX"|
 

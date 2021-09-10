@@ -673,7 +673,9 @@ The password reset structure represents a message sent to a customer with instru
 
 |Name|Type|Description|
 |----|----|-----------|
-|emailAddressOrPhoneNumber|string|The email address or phone number the message was sent to if the account exists.|
+|emailAddress|string or null|The email address the message was sent to or null if the message was not sent by email.
+|phoneNumber|[Phone number](#-phone-number) or null|The phone number the message was sent to or null if the message was not sent by sms.
+|messageSentBy|array of string|How the message was sent to the account owner. The array contains at least one of "email" (message was sent via e-mail to the value of the parameter "emailAddress") or "sms" (message was sent via sms to the value of the parameter "phoneNumber").|
 
 ### 🗏 Phone number
 

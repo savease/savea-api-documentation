@@ -25,6 +25,7 @@ NOTE: This document is under development and might change without any notice.
     * [Create an account draft](#-create-an-account-draft)
     * [Log in to a customer account](#-log-in-to-a-customer-account)
     * [Log out from a customer account](#-log-out-from-a-customer-account)
+    * [Reset password for a customer account](#-reset-password-for-a-customer-account)
 * [Data structures](#data-structures)
     * [Account](#-account)
     * [Account draft](#-account-draft)
@@ -33,6 +34,7 @@ NOTE: This document is under development and might change without any notice.
     * [Coordinate](#-coordinate)
     * [Image](#-image)
     * [Language](#-language)
+    * [Password reset](#-password-reset)
     * [Phone number](#-phone-number)
     * [Ping response](#-ping-response)
     * [Price](#-price)
@@ -519,6 +521,50 @@ Log out from a customer account.
 
 * After a successful request, the corresponding [account login](#-account-login) and its token will be invalid.
 
+### ⇄ Reset password for a customer account
+
+Send a mail or sms to a customer with instruction on how to reset their password.
+
+🛈 This request requires a [client key](#the-client-key).
+
+**Request**
+
+|Method|Url|
+|------|---|
+|POST|/v1/accountpasswordresets/\<companyId>/|
+
+**Parameters**
+
+|Name|Description|Required|
+|----|-----------|--------|
+|companyId|The unique id of the company.|yes|
+
+**Request body**
+
+```
+{
+   "emailAddressOrPhoneNumber": "...",
+}
+```
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|emailAddressOrPhoneNumber|string|A valid email address or phone number for the account owner. The phone number can be in any valid format.|yes|
+
+**Response**
+
+🛈 The response will be successful even if no account with the specified email address or phone number exists. This is done intentionally to protect the privacy of the registered accounts and not give information whether an account exists or not.
+
+* [Password reset](#-password-reset)
+
+**Errors**
+
+|Code|Error id|Reason|
+|----|--------|------|
+|400|ERROR_INVALID_REQUEST_BODY_PARAMETERS|One or more of the request body parameter are invalid.|
+|403|ERROR_MISSING_OR_INVALID_CLIENT_KEY|The [client key](#the-client-key) is missing or invalid.|
+|404|ERROR_INVALID_COMPANY_ID|The company id is invalid.|
+
 ---
 
 ## Data structures
@@ -618,6 +664,16 @@ The language structure represents a language.
 |----|----|-----------|
 |code|string|The ISO 639-1 two-letter code for the language.|
 |name|string|The name of the language in the own language.|
+
+### 🗏 Password reset
+
+The password reset structure represents a message sent to a customer with instructions on how to reset their password.
+
+**Attributes**
+
+|Name|Type|Description|
+|----|----|-----------|
+|emailAddressOrPhoneNumber|string|The email address or phone number the message was sent to if the account exists.|
 
 ### 🗏 Phone number
 
